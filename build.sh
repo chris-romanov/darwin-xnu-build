@@ -33,8 +33,8 @@ function error() {
 
 # Config
 : ${KERNEL_CONFIG:=RELEASE}
-: ${ARCH_CONFIG:=ARM64}
-: ${MACHINE_CONFIG:=VMAPPLE}
+: ${ARCH_CONFIG:=x86_64}
+: ${MACHINE_CONFIG:=NONE}
 : ${MACOS_VERSION:=""}
 : ${JSONDB:=0}
 : ${BUILDKC:=0}
