@@ -1,4 +1,4 @@
-name: XNU CodeQL
+name: XNU BUILD
 
 on:
   push:
