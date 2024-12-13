@@ -282,7 +282,7 @@ restore_permissions() {
     find "${WORK_DIR}/xnu" -type f -name "*.h" -exec chmod 644 {} +
     find "${WORK_DIR}/xnu" -type f ! -name "*.sh" ! -name "*.py" ! -name "*.c" ! -name "*.h" -exec chmod 644 {} +
 
-    success "Permissions restored successfully"
+    info "Permissions restored successfully"
 }
 
 patches() {
