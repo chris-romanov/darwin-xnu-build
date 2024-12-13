@@ -544,7 +544,7 @@ main() {
     install_deps
     choose_xnu
     get_xnu
-    patches
+    #patches
     venv
     build_bootstrap_cmds
     build_dtrace
