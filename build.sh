@@ -269,6 +269,25 @@ get_xnu() {
     fi
 }
 
+restore_permissions() {
+    info "Restoring permissions in XNU repository"
+
+    # Set permissions for directories
+    find "${WORK_DIR}/xnu" -type d -exec chmod 755 {} +
+
+    # Set permissions for files
+    find "${WORK_DIR}/xnu" -type f -name "*.sh" -exec chmod 755 {} +
+    find "${WORK_DIR}/xnu" -type f -name "*.py" -exec chmod 755 {} +
+    find "${WORK_DIR}/xnu" -type f -name "*.c" -exec chmod 644 {} +
+    find "${WORK_DIR}/xnu" -type f -name "*.h" -exec chmod 644 {} +
+    find "${WORK_DIR}/xnu" -type f ! -name "*.sh" ! -name "*.py" ! -name "*.c" ! -name "*.h" -exec chmod 644 {} +
+
+    # Optional: Reset ownership if necessary
+    sudo chown -R $(whoami):$(whoami) "${WORK_DIR}/xnu"
+
+    success "Permissions restored successfully"
+}
+
 patches() {
     running "🩹 Patching xnu files"
     # xnu headers patch
@@ -544,6 +563,7 @@ main() {
     install_deps
     choose_xnu
     get_xnu
+    restore_permissions
     patches
     venv
     build_bootstrap_cmds
