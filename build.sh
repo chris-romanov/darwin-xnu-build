@@ -278,10 +278,7 @@ restore_permissions() {
     # Set permissions for files
     find "${WORK_DIR}/xnu" -type f -name "*.sh" -exec chmod 755 {} +
     find "${WORK_DIR}/xnu" -type f -name "*.py" -exec chmod 755 {} +
-    find "${WORK_DIR}/xnu" -type f -name "*.c" -exec chmod 644 {} +
-    find "${WORK_DIR}/xnu" -type f -name "*.h" -exec chmod 644 {} +
-    find "${WORK_DIR}/xnu" -type f ! -name "*.sh" ! -name "*.py" ! -name "*.c" ! -name "*.h" -exec chmod 644 {} +
-
+    
     info "Permissions restored successfully"
 }
 
