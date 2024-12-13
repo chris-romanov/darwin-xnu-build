@@ -282,9 +282,6 @@ restore_permissions() {
     find "${WORK_DIR}/xnu" -type f -name "*.h" -exec chmod 644 {} +
     find "${WORK_DIR}/xnu" -type f ! -name "*.sh" ! -name "*.py" ! -name "*.c" ! -name "*.h" -exec chmod 644 {} +
 
-    # Optional: Reset ownership if necessary
-    sudo chown -R $(whoami):$(whoami) "${WORK_DIR}/xnu"
-
     success "Permissions restored successfully"
 }
 
