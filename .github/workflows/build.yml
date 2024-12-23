@@ -30,27 +30,15 @@ jobs:
       - name: Deps
         run: |
           # brew update
-          brew install bash blacktop/tap/ipsw
+          # brew install bash blacktop/tap/ipsw
           # sudo ipsw dl kdk --host --install
-          sudo xcode-select -s /Applications/Xcode_15.3.app
+          sudo xcode-select -s /Applications/Xcode_16.2.app
 
       - name: kmutil help # This is to check for what flags are available
         run: |
           sysctl -n kern.bootobjectspath || true
           sw_vers
           kmutil inspect
-
-      # - name: Cache JSONDB
-      #   id: cache-jsondb
-      #   uses: actions/cache@v4
-      #   with:
-      #     path: .cache/${{ matrix.macos-version }}/compile_commands.json
-      #     key: ${{ matrix.macos-version }}-jsondb
-
-      # - name: Build XNU JSON compilation database
-      #   if: steps.cache-jsondb.outputs.cache-hit != 'true'
-      #   run: |
-      #     MACOS_VERSION='${{ matrix.macos-version }}' MACHINE_CONFIG=VMAPPLE JSONDB=1 bash -x build.sh
 
       - name: Build XNU
         run: |
@@ -62,4 +50,3 @@ jobs:
           name: xnu-build-${{ matrix.macos-version }}
           path: |
             fakeroot/System/Library/Kernels/
-            # fakeroot/oss-xnu.macOS.${{ matrix.macos-version }}.kc.vmapple
