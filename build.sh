@@ -261,7 +261,7 @@ get_xnu() {
     if [ ! -d "${WORK_DIR}/xnu" ]; then
         running "⬇️ Cloning xnu"
         XNU_VERSION=$(curl -s $RELEASE_URL | jq -r '.projects[] | select(.project=="xnu") | .tag')
-        git clone --branch main https://github.com/DinDjarinMDR/xnu.git "${WORK_DIR}/xnu"
+        git clone --branch "${XNU_VERSION}" https://github.com/apple-oss-distributions/xnu.git "${WORK_DIR}/xnu"
     fi
     if [ -f "${CACHE_DIR}/${MACOS_VERSION}/compile_commands.json" ]; then
         info "Restoring cached ${CACHE_DIR}/${MACOS_VERSION}/compile_commands.json"
@@ -407,7 +407,7 @@ libsystem_headers() {
         OBJROOT="${BUILD_DIR}/Libsystem.obj"
         SYMROOT="${BUILD_DIR}/Libsystem.sym"
         cd "${SRCROOT}"
-        xcodebuild installhdrs -sdk macosx ARCHS="arm64 arm64e" VALID_ARCHS="arm64 arm64e" OBJROOT="${OBJROOT}" SYMROOT="${SYMROOT}" DSTROOT="${DSTROOT}" FAKEROOT_DIR="${FAKEROOT_DIR}"
+        xcodebuild installhdrs -sdk macosx ARCHS="arm64 x86_64" VALID_ARCHS="arm64 x86_64" OBJROOT="${OBJROOT}" SYMROOT="${SYMROOT}" DSTROOT="${DSTROOT}" FAKEROOT_DIR="${FAKEROOT_DIR}"
         cd "${WORK_DIR}"
     fi
 }
@@ -419,7 +419,7 @@ libsyscall_headers() {
         OBJROOT="${BUILD_DIR}/libsyscall.obj"
         SYMROOT="${BUILD_DIR}/libsyscall.sym"
         cd "${SRCROOT}"
-        xcodebuild installhdrs -sdk macosx TARGET_CONFIGS="$KERNEL_CONFIG $ARCH_CONFIG $MACHINE_CONFIG" ARCHS="arm64 arm64e" VALID_ARCHS="arm64 arm64e" OBJROOT="${OBJROOT}" SYMROOT="${SYMROOT}" DSTROOT="${DSTROOT}" FAKEROOT_DIR="${FAKEROOT_DIR}"
+        xcodebuild installhdrs -sdk macosx TARGET_CONFIGS="$KERNEL_CONFIG $ARCH_CONFIG $MACHINE_CONFIG" ARCHS="arm64 x86_64" VALID_ARCHS="arm64 arm64e" OBJROOT="${OBJROOT}" SYMROOT="${SYMROOT}" DSTROOT="${DSTROOT}" FAKEROOT_DIR="${FAKEROOT_DIR}"
         cd "${WORK_DIR}"
     fi
 }
@@ -453,7 +453,7 @@ build_libdispatch() {
         sed -i '' 's|$(SDKROOT)/System/Library/Frameworks/Kernel.framework/PrivateHeaders|$(FAKEROOT_DIR)/System/Library/Frameworks/Kernel.framework/PrivateHeaders|g' "${SRCROOT}/xcodeconfig/libfirehose_kernel.xcconfig"
         sed -i '' 's|$(SDKROOT)/usr/local/include|$(FAKEROOT_DIR)/usr/local/include|g' "${SRCROOT}/xcodeconfig/libfirehose_kernel.xcconfig"
         cd "${SRCROOT}"
-        xcodebuild install -target libfirehose_kernel -sdk macosx ARCHS="x86_64 arm64e" VALID_ARCHS="x86_64 arm64e" OBJROOT="${OBJROOT}" SYMROOT="${SYMROOT}" DSTROOT="${DSTROOT}" FAKEROOT_DIR="${FAKEROOT_DIR}"
+        xcodebuild install -target libfirehose_kernel -sdk macosx ARCHS="arm64 x86_64" VALID_ARCHS="arm64 x86_64" OBJROOT="${OBJROOT}" SYMROOT="${SYMROOT}" DSTROOT="${DSTROOT}" FAKEROOT_DIR="${FAKEROOT_DIR}"
         cd "${WORK_DIR}"
         mv "${FAKEROOT_DIR}/usr/local/lib/kernel/liblibfirehose_kernel.a" "${FAKEROOT_DIR}/usr/local/lib/kernel/libfirehose_kernel.a"
     fi
@@ -557,7 +557,6 @@ main() {
     install_deps
     choose_xnu
     get_xnu
-    restore_permissions
     patches
     venv
     build_bootstrap_cmds
