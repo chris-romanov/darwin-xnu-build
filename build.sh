@@ -261,7 +261,7 @@ get_xnu() {
     if [ ! -d "${WORK_DIR}/xnu" ]; then
         running "⬇️ Cloning xnu"
         XNU_VERSION=$(curl -s $RELEASE_URL | jq -r '.projects[] | select(.project=="xnu") | .tag')
-        git clone --branch main https://github.com/DinDjarinMDR/xnu.git "${WORK_DIR}/xnu"
+        git clone --branch "${XNU_VERSION}" https://github.com/chris-romanov/xnu.git "${WORK_DIR}/xnu"
     fi
     if [ -f "${CACHE_DIR}/${MACOS_VERSION}/compile_commands.json" ]; then
         info "Restoring cached ${CACHE_DIR}/${MACOS_VERSION}/compile_commands.json"
