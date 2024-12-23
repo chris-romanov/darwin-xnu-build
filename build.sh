@@ -345,7 +345,7 @@ build_bootstrap_cmds() {
         CLONED_BOOTSTRAP_VERSION=$(cd "${WORK_DIR}/bootstrap_cmds"; git describe --always 2>/dev/null)
 
         cd "${SRCROOT}"
-        xcodebuild install -sdk macosx -project mig.xcodeproj ARCHS="arm64 x86_64" CODE_SIGN_IDENTITY="-" OBJROOT="${OBJROOT}" SYMROOT="${SYMROOT}" DSTROOT="${DSTROOT}" RC_ProjectNameAndSourceVersion="${CLONED_BOOTSTRAP_VERSION}"
+        xcodebuild install -sdk macosx -project mig.xcodeproj ARCHS="x86_64" CODE_SIGN_IDENTITY="-" OBJROOT="${OBJROOT}" SYMROOT="${SYMROOT}" DSTROOT="${DSTROOT}" RC_ProjectNameAndSourceVersion="${CLONED_BOOTSTRAP_VERSION}"
         cd "${WORK_DIR}"
     fi
 }
@@ -361,7 +361,7 @@ build_dtrace() {
         OBJROOT="${BUILD_DIR}/dtrace.obj"
         SYMROOT="${BUILD_DIR}/dtrace.sym"
         cd "${SRCROOT}"
-        xcodebuild install -sdk macosx -target ctfconvert -target ctfdump -target ctfmerge ARCHS="arm64 x86_64" CODE_SIGN_IDENTITY="-" OBJROOT="${OBJROOT}" SYMROOT="${SYMROOT}" DSTROOT="${DSTROOT}"
+        xcodebuild install -sdk macosx -target ctfconvert -target ctfdump -target ctfmerge ARCHS="x86_64" CODE_SIGN_IDENTITY="-" OBJROOT="${OBJROOT}" SYMROOT="${SYMROOT}" DSTROOT="${DSTROOT}"
         cd "${WORK_DIR}"
     fi
 }
@@ -389,7 +389,7 @@ xnu_headers() {
         OBJROOT="${BUILD_DIR}/xnu-hdrs.obj"
         SYMROOT="${BUILD_DIR}/xnu-hdrs.sym"
         cd "${SRCROOT}"
-        make installhdrs SDKROOT=macosx ARCH_CONFIGS="X86_64 ARM64" OBJROOT="${OBJROOT}" SYMROOT="${SYMROOT}" DSTROOT="${DSTROOT}" FAKEROOT_DIR="${FAKEROOT_DIR}" KDKROOT="${KDKROOT}" TIGHTBEAMC=${TIGHTBEAMC} RC_DARWIN_KERNEL_VERSION=${RC_DARWIN_KERNEL_VERSION}
+        make installhdrs SDKROOT=macosx ARCH_CONFIGS="X86_64" OBJROOT="${OBJROOT}" SYMROOT="${SYMROOT}" DSTROOT="${DSTROOT}" FAKEROOT_DIR="${FAKEROOT_DIR}" KDKROOT="${KDKROOT}" TIGHTBEAMC=${TIGHTBEAMC} RC_DARWIN_KERNEL_VERSION=${RC_DARWIN_KERNEL_VERSION}
         cd "${WORK_DIR}"
         touch "${HAVE_WE_INSTALLED_HEADERS_YET}"
     fi
@@ -407,7 +407,7 @@ libsystem_headers() {
         OBJROOT="${BUILD_DIR}/Libsystem.obj"
         SYMROOT="${BUILD_DIR}/Libsystem.sym"
         cd "${SRCROOT}"
-        xcodebuild installhdrs -sdk macosx ARCHS="arm64 x86_64" VALID_ARCHS="arm64 x86_64" OBJROOT="${OBJROOT}" SYMROOT="${SYMROOT}" DSTROOT="${DSTROOT}" FAKEROOT_DIR="${FAKEROOT_DIR}"
+        xcodebuild installhdrs -sdk macosx ARCHS="x86_64" VALID_ARCHS="x86_64" OBJROOT="${OBJROOT}" SYMROOT="${SYMROOT}" DSTROOT="${DSTROOT}" FAKEROOT_DIR="${FAKEROOT_DIR}"
         cd "${WORK_DIR}"
     fi
 }
@@ -419,7 +419,7 @@ libsyscall_headers() {
         OBJROOT="${BUILD_DIR}/libsyscall.obj"
         SYMROOT="${BUILD_DIR}/libsyscall.sym"
         cd "${SRCROOT}"
-        xcodebuild installhdrs -sdk macosx TARGET_CONFIGS="$KERNEL_CONFIG $ARCH_CONFIG $MACHINE_CONFIG" ARCHS="arm64 x86_64" VALID_ARCHS="arm64 arm64e" OBJROOT="${OBJROOT}" SYMROOT="${SYMROOT}" DSTROOT="${DSTROOT}" FAKEROOT_DIR="${FAKEROOT_DIR}"
+        xcodebuild installhdrs -sdk macosx TARGET_CONFIGS="$KERNEL_CONFIG $ARCH_CONFIG $MACHINE_CONFIG" ARCHS="x86_64" VALID_ARCHS="x86_64" OBJROOT="${OBJROOT}" SYMROOT="${SYMROOT}" DSTROOT="${DSTROOT}" FAKEROOT_DIR="${FAKEROOT_DIR}"
         cd "${WORK_DIR}"
     fi
 }
@@ -453,7 +453,7 @@ build_libdispatch() {
         sed -i '' 's|$(SDKROOT)/System/Library/Frameworks/Kernel.framework/PrivateHeaders|$(FAKEROOT_DIR)/System/Library/Frameworks/Kernel.framework/PrivateHeaders|g' "${SRCROOT}/xcodeconfig/libfirehose_kernel.xcconfig"
         sed -i '' 's|$(SDKROOT)/usr/local/include|$(FAKEROOT_DIR)/usr/local/include|g' "${SRCROOT}/xcodeconfig/libfirehose_kernel.xcconfig"
         cd "${SRCROOT}"
-        xcodebuild install -target libfirehose_kernel -sdk macosx ARCHS="arm64 x86_64" VALID_ARCHS="arm64 x86_64" OBJROOT="${OBJROOT}" SYMROOT="${SYMROOT}" DSTROOT="${DSTROOT}" FAKEROOT_DIR="${FAKEROOT_DIR}"
+        xcodebuild install -target libfirehose_kernel -sdk macosx ARCHS="x86_64" VALID_ARCHS="x86_64" OBJROOT="${OBJROOT}" SYMROOT="${SYMROOT}" DSTROOT="${DSTROOT}" FAKEROOT_DIR="${FAKEROOT_DIR}"
         cd "${WORK_DIR}"
         mv "${FAKEROOT_DIR}/usr/local/lib/kernel/liblibfirehose_kernel.a" "${FAKEROOT_DIR}/usr/local/lib/kernel/libfirehose_kernel.a"
     fi
