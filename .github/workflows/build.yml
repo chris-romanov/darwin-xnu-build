@@ -45,6 +45,9 @@ jobs:
           MACOS_VERSION='${{ matrix.macos-version }}' MACHINE_CONFIG=NONE KC_FILTER='com.apple.driver.SEPHibernation|com.apple.iokit.IOACPIFamily' bash -x build.sh
           ls -lah fakeroot/System/Library/Kernels/
           ls -la fakeroot/
+          ls -la fakeroot/System/
+          ls -la fakeroot/System/Library/
+          ls -la fakeroot/System/Library/KernelCollections/
 
       - uses: actions/upload-artifact@v4
         with:
