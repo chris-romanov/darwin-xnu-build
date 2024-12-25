@@ -523,8 +523,8 @@ build_kc() {
         else
             kmutil create -v -V "${KC_VARIANT}" -a x86_64 -n boot sys -s none \
                 ${KDK_FLAG} \
-                -B "${DSTROOT}/BootKernelExtensions.${MACOS_VERSION}.$(echo "$MACHINE_CONFIG" | tr '[:upper:]' '[:lower:]').kc" \
-                -S "${DSTROOT}/SystemKernelExtensions.${MACOS_VERSION}.$(echo "$MACHINE_CONFIG" | tr '[:upper:]' '[:lower:]').kc" \
+                -B "${DSTROOT}/BootKernelExtensions.kc" \
+                -S "${DSTROOT}/SystemKernelExtensions.kc" \
                 -k "${BUILD_DIR}/xnu.obj/kernel.${KERNEL_TYPE}" \
                 --elide-identifier com.apple.ExclaveKextClient \
                 -x $(ipsw kernel kmutil inspect -x --filter "${KC_FILTER}") # this will skip KC_FILTER regex (and other KEXTs with them as dependencies)
