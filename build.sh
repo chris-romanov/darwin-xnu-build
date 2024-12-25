@@ -507,8 +507,7 @@ version_lt() {
 }
 
 build_kc() {
-    if [ -f "${BUILD_DIR}/xnu.obj/kernel.${KERNEL_TYPE}" ]; then
-        running "📦 Building kernel collection for kernel.${KERNEL_TYPE}"
+        running "📦 Building kernel collection..."
         KDK_FLAG=""
         if version_lte 13.0 "$(sw_vers -productVersion | grep -Eo '[0-9]+\.[0-9]+')"; then
             KDK_FLAG="--kdk ${KDKROOT}" # Newer versions of kmutil support the --kdk option
@@ -525,13 +524,12 @@ build_kc() {
                 ${KDK_FLAG} \
                 -B "${DSTROOT}/BootKernelExtensions.kc" \
                 -S "${DSTROOT}/SystemKernelExtensions.kc" \
-                -k "${BUILD_DIR}/xnu.obj/kernel.${KERNEL_TYPE}" \
+                -k "${BUILD_DIR}/xnu.obj/kernel" \
                 --elide-identifier com.apple.ExclaveKextClient \
                 -x $(ipsw kernel kmutil inspect -x --filter "${KC_FILTER}") # this will skip KC_FILTER regex (and other KEXTs with them as dependencies)
                 # -x $(kmutil inspect -V release --no-header | grep apple | grep -v "SEPHibernation" | awk '{print " -b "$1; }')
         fi
         echo "  🎉 KC Build Done!"
-    fi
 }
 
 main() {
