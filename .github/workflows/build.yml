@@ -50,4 +50,4 @@ jobs:
           name: xnu-build-${{ matrix.macos-version }}
           path: |
             fakeroot/System/Library/Kernels/
-            fakeroot/System/Library/KernelCollections
+            fakeroot/System/Library/KernelCollections/
