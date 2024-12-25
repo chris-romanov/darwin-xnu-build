@@ -37,7 +37,6 @@ function error() {
 : ${MACHINE_CONFIG:=NONE}
 : ${MACOS_VERSION:=""}
 : ${JSONDB:=0}
-: ${BUILDKC:=0}
 : ${CODEQL:=0}
 : ${KC_FILTER:='com.apple.driver.SEPHibernation|com.apple.driver.ExclavesAudioKext|com.apple.driver.AppleH11ANEInterface|com.apple.driver.AppleFirmwareKit|com.apple.driver.AppleARMWatchdogTimer'}
 
@@ -545,10 +544,6 @@ main() {
             clean
             shift
             ;;
-        -k | --kc)
-            BUILDKC=1
-            shift
-            ;;
         *)
             break
             ;;
@@ -568,11 +563,8 @@ main() {
     build_libplatform
     build_libdispatch
     build_xnu
+    build_kc
     echo "  🎉 XNU Build Done!"
-    if [ "$BUILDKC" -ne "0" ]; then
-        install_ipsw
-        build_kc
-    fi
 }
 
 main "$@"
