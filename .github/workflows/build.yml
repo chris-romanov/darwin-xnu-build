@@ -42,12 +42,14 @@ jobs:
 
       - name: Build XNU
         run: |
-          MACOS_VERSION='${{ matrix.macos-version }}' MACHINE_CONFIG=NONE KC_FILTER='com.apple.driver.SEPHibernation|com.apple.iokit.IOACPIFamily' bash -x build.sh
+          MACOS_VERSION='${{ matrix.macos-version }}' MACHINE_CONFIG=NONE BUILDKC=1 KC_FILTER='com.apple.driver.SEPHibernation|com.apple.iokit.IOACPIFamily' bash -x build.sh
           ls -lah fakeroot/System/Library/Kernels/
+          ls -la fakeroot/
 
       - uses: actions/upload-artifact@v4
         with:
           name: xnu-build-${{ matrix.macos-version }}
           path: |
             fakeroot/System/Library/Kernels/
-            fakeroot/System/Library/KernelCollections/
+            fakeroot/BootKernelExtensions.kc
+            fakeroot/SystemKernelExtensions.kc
